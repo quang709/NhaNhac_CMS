@@ -1,0 +1,1329 @@
+﻿
+@{
+
+    ViewBag.Title = "Quản lý Nghệ Nhân";
+    //Layout = "~/DesktopModules/MVC/CSDLTuongCMS/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <h3 class="admin-page-content-title">Nghệ Nhân</h3>
+    <div class="tab-content admin-content-wrapper">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="row">
+
+
+
+
+                    </div>
+                </div>
+                <div class="col-12">
+                    <form>
+                        <div class="input-group input-group-outline">
+                            <input type="text" id="nghenhan" class="form-control"
+                                   value="" placeholder="Từ khóa">
+
+                            <button type="submit" id="timkiem" class="btn btn-primary">Tìm kiếm</button>
+                        </div>
+                    </form>
+
+
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAdd">
+                        <span>Thêm mới</span>
+                    </button>
+                    <button type="button" class="btn btn-danger" id="mutiDelete" data-toggle="modal" data-target="#modalMutiDelete">
+                        <span>Xóa</span>
+                    </button>
+                    <!-- Button trigger modal -->
+
+                    <button id="modal-btn-edit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEdit" style="display: none">
+                        Cập nhật
+                    </button>
+                    <button id="modal-btn-delete" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDelete" style="display: none">
+                        Xóa
+                    </button>
+                    <button id="modal-btn-detail" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDetail" style="display: none">
+                        Chi tiết 
+                    </button>
+                </div>
+            </div>
+            <div class="table-tree-wrapper">
+                <div style="width:100%; margin:0 auto;">
+                    <table id="dataGrid" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="align-self-md-center" id="flexCheckDefault"></th>
+                                <th>Stt</th>
+                                <th>Nghệ nhân</th>
+                                <th>Nghề nghiệp</th>
+                                <th>Quê quán</th>
+                                <th>Địa chỉ</th>
+
+
+
+                                <th>Thao tác</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <!-- Modal add-->
+            <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="loai-hinh-title" id="modalLabelAdd">Thêm mới </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" id="formAdd" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Họ tên<span class="red-text"> *</span></label>
+                                    <input class="form-control" id="TenAdd" required onKeyUp="KiemTra();" />
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Nghề nghiệp<span class="red-text"> *</span></label>
+                                    <select class="form-control" id="NgheNghiepAdd" required></select>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="formFile" class="form-label">Ảnh</label>
+                                    <input class="form-control" type="file" id="formFile">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Hoạt động nghệ thuật</label>
+                                    <textarea id="HoatDongNgheThuatAdd" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Nghệ danh</label>
+                                    <input type="text" class="form-control" id="NgheDanhAdd" />
+                                </div>
+                                @*<div class="form-group">
+                                        <label for="Input" class="editor-label">Danh hiệu</label>
+                                        <input type="number" id="DanhhieuAdd" class="form-control" rows="3">
+                                    </div>*@
+                                <div class="form-group ">
+                                    <label for="Input" class="editor-label">Năm sinh</label>
+                                    <input type="text" class="form-control" id="NamSinhAdd" />
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Quê quán</label>
+                                    <input id="QueQuanAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Địa chỉ</label>
+                                    <input id="DiaChiAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Những nơi lưu diễn</label>
+                                    <textarea id="NhungNoiLuuDienAdd" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Thế hệ nghệ nhân</label>
+                                    <input id="TheHeNgheNhanAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Học loại hình nghệ thuật</label>
+                                    <input id="HocLoaiHinhNgheThuatAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Sử dụng nhạc cụ</label>
+                                    <input class="form-control" id="SuDungNhacCuAdd">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Năm bắt đầu học</label>
+                                    <input type="text" class="form-control" id="NamBatDauHocAdd" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Người dạy</label>
+                                    <input id="NguoiDayAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Nơi học</label>
+                                    <input id="NoiHocAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Bạn cùng học</label>
+                                    <input id="BanCungHocAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Bạn cùng diễn</label>
+                                    <input id="BanCungDienAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Bí quyết nghề nghiệp</label>
+                                    <input id="BiQuyetNgheNghiepAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Thể hiện bài bản</label>
+                                    <input id="TheHienBaiBanAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Giai thoại Kỷ niệm</label>
+                                    <input id="GiaiThoaiKyNiemAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Truyền thống gia đình</label>
+                                    <input id="TruyenThongGiaDinhAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Thế hệ kế tục</label>
+                                    <input id="TheHeKeTucAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Đóng góp truyền dạy</label>
+                                    <input id="DongGopTruyenDayAdd" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Danh hiện giải thưởng</label>
+                                    <input id="DanhHieuGiaiThuongAdd" class="form-control" rows="3">
+                                </div>
+
+
+                                <div class="modal-footer">
+
+                                    <button type="submit" id="btnAdd" class="btn btn-submit-form btn-success">Lưu</button>
+
+                                    <button type="button" class="btn btn-close-form btn-outline-danger" data-dismiss="modal">Hủy bỏ</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Modal edit-->
+            <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="loai-hinh-title" id="modalLabelEdit">Chỉnh sửa </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" id="formEdit">
+                                <input type="hidden" class="form-control" id="Id">
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Họ tên<span class="red-text"> *</span></label>
+                                    <input class="form-control" id="TenEdit" required onKeyUp="KiemTra();" />
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Nghề nghiệp<span class="red-text"> *</span></label>
+                                    <select class="form-control" id="NgheNghiepEdit" required></select>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="formFile" class="form-label">Ảnh</label>
+                                    <input class="form-control" type="file" id="formFile1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Hoạt động nghệ thuật</label>
+                                    <textarea id="HoatDongNgheThuatEdit" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Nghệ danh</label>
+                                    <input type="text" class="form-control" id="NgheDanhEdit" />
+                                </div>
+        
+                                <div class="form-group ">
+                                    <label for="Input" class="editor-label">Năm sinh</label>
+                                    <input type="text" class="form-control" id="NamSinhEdit" />
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Quê quán</label>
+                                    <input id="QueQuanEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Địa chỉ</label>
+                                    <input id="DiaChiEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Những nơi lưu diễn</label>
+                                    <textarea id="NhungNoiLuuDienEdit" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Thế hệ nghệ nhân</label>
+                                    <input id="TheHeNgheNhanEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Học loại hình nghệ thuật</label>
+                                    <input id="HocLoaiHinhNgheThuatEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Sử dụng nhạc cụ</label>
+                                    <input class="form-control" id="SuDungNhacCuEdit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Năm bắt đầu học</label>
+                                    <input type="text" class="form-control" id="NamBatDauHocEdit" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Người dạy</label>
+                                    <input id="NguoiDayEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Nơi học</label>
+                                    <input id="NoiHocEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Bạn cùng học</label>
+                                    <input id="BanCungHocEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Bạn cùng diễn</label>
+                                    <input id="BanCungDienEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Bí quyết nghề nghiệp</label>
+                                    <input id="BiQuyetNgheNghiepEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Thể hiện bài bản</label>
+                                    <input id="TheHienBaiBanEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Giai thoại Kỷ niệm</label>
+                                    <input id="GiaiThoaiKyNiemEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Truyền thống gia đình</label>
+                                    <input id="TruyenThongGiaDinhEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Thế hệ kế tục</label>
+                                    <input id="TheHeKeTucEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Đóng góp truyền dạy</label>
+                                    <input id="DongGopTruyenDayEdit" class="form-control" rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Danh hiện giải thưởng</label>
+                                    <input id="DanhHieuGiaiThuongEdit" class="form-control" rows="3">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" id="btnEdit" class="btn btn-submit-form btn-success">Lưu</button>
+                                    <button type="button" class="btn btn-close-form btn-outline-danger" data-dismiss="modal">Hủy bỏ</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--modal Muti delete-->
+            <div class="modal fade" id="modalMutiDelete" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="loai-hinh-title" id="modalLabelDelete">Xóa các nghệ nhân</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" id="formDelete">
+                                <input type="hidden" class="form-control" id="IdDelete">
+                                <div class="form-group">
+                                    Bạn có chắc chắn muốn xóa các nghệ nhân?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="mutiDeleteSubmit" class="btn btn-primary text-white">Đồng ý</button>
+                                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--modal delete-->
+            <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="loai-hinh-title" id="modalLabelDelete">Xóa</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" id="formDelete">
+                                <input type="hidden" class="form-control" id="IdDelete">
+                                <div class="form-group">
+                                    Bạn có chắc chắn muốn xóa ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="delete" class="btn btn-primary text-white">Đồng ý</button>
+                                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Modal detail-->
+            <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="loai-hinh-title" id="modalLabelDetail">Xem chi tiết </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" id="formDetail">
+                                <input type="hidden" class="form-control" id="Id">
+                                <div class="form-group">
+                                    <label for="TheLoaiInput" class="editor-label">Họ Tên</label>
+                                    <input class="form-control" id="TenDetail" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Nghề nghiệp<span class="red-text"> *</span></label>
+                                    <select class="form-control" id="NgheNghiepDetail" disabled></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="formFile" class="form-label">Ảnh</label>
+                                    <img id="img">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Hoạt động nghệ thuật</label>
+                                    <textarea id="HoatDongNgheThuatDetail" class="form-control" disabled rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Nghệ danh</label>
+                                    <input type="text" class="form-control" id="NgheDanhDetail" disabled />
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="Input" class="editor-label">Năm sinh</label>
+                                    <input type="text" class="form-control" id="NamSinhDetail" disabled/>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Quê quán</label>
+                                    <input id="QueQuanDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Địa chỉ</label>
+                                    <input id="DiaChiDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Những nơi lưu diễn</label>
+                                    <textarea id="NhungNoiLuuDienDetail"disabled class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Thế hệ nghệ nhân</label>
+                                    <input id="TheHeNgheNhanDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Học loại hình nghệ thuật</label>
+                                    <input id="HocLoaiHinhNgheThuatDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Sử dụng nhạc cụ</label>
+                                    <input class="form-control"disabled id="SuDungNhacCuDetail">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Năm bắt đầu học</label>
+                                    <input type="text" class="form-control"disabled id="NamBatDauHocDetail" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Người dạy</label>
+                                    <input id="NguoiDayDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Nơi học</label>
+                                    <input id="NoiHocDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Bạn cùng học</label>
+                                    <input id="BanCungHocDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Bạn cùng diễn</label>
+                                    <input id="BanCungDienDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Bí quyết nghề nghiệp</label>
+                                    <input id="BiQuyetNgheNghiepDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Thể hiện bài bản</label>
+                                    <input id="TheHienBaiBanDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Giai thoại Kỷ niệm</label>
+                                    <input id="GiaiThoaiKyNiemDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Truyền thống gia đình</label>
+                                    <input id="TruyenThongGiaDinhDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Thế hệ kế tục</label>
+                                    <input id="TheHeKeTucDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Đóng góp truyền dạy</label>
+                                    <input id="DongGopTruyenDayDetail" class="form-control"disabled rows="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Danh hiện giải thưởng</label>
+                                    <input id="DanhHieuGiaiThuongDetail" class="form-control"disabled rows="3">
+                                </div>
+
+
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Trở về</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        let dtb = $('#dataGrid').dataTable({
+            "order": [],
+            "autoWidth": false,
+            "ordering": true,
+            "bInfo": false,
+            "bLengthChange": false,
+            "filter": true,
+            "language": {
+                "sProcessing": "Đang xử lý...",
+                "sLengthMenu": "Hiện: _MENU_",
+                "sZeroRecords": "Không có dữ liệu",
+                "sEmptyTable": "Bảng trống",
+                "sInfo": "Hiện dòng _START_ đến _END_ trong tổng _TOTAL_ dòng",
+                "sInfoEmpty": "Hiện dòng 0 đến 0 trong tổng 0 dòng",
+                //"sInfoPostFix": "Tìm kiếm...",
+                "sSearch": "Tìm kiếm",
+                "sLoadingRecords": "Đang tải...",
+                paginate: {
+                    next: '<i class="fas fa-chevron-right paging-chevron">',
+                    previous: '<i class="fas fa-chevron-left paging-chevron">'
+                }
+            },
+
+
+            columnDefs: [
+                {
+                    'targets': [0],
+                    'checkboxes': {
+                        'selectrow': true
+                    },
+                },
+                {
+                    'targets': [0, 1, 3, 4, 5, 6],
+                    orderable: false,
+                },
+
+                {
+
+                    targets: 6,
+                    render: function (data, type, row, meta) {
+                        return '<i class="fas fa-solid fa-eye green-text detail-NgheNhan" id=n-"' + meta.row + '"></i><i class="fas fa-edit edit-NgheNhan blue-text command-icon" id=n-"' + meta.row + '"></i><i class="far fa-trash-alt delete-NgheNhan red-text command-icon" id=n-"' + meta.row + '"></i>';
+                    },
+
+
+                },
+
+
+            ],
+            "select": {
+                'style': 'multi'
+            },
+            "ajax": {
+                url: window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Gets',
+                type: "GET",
+
+                dataSrc: function (data) {
+
+                    for (let i = 0; i < data.length; i++) {
+                        data[i].stt = i + 1;
+                    }
+                    return data;
+                },
+            },
+
+            "columns": [
+                { data: "MaNgheNhan", "class": "center-align", "width": "100px" },
+                { data: "stt", "width": "50px", "class": "stt-text center-align" },
+                { data: "Ten", "class": "left-align" },
+
+                { data: "TenNghe", "class": "left-align" },
+                { data: "QueQuan", "class": "left-align" },
+                { data: "DiaChi", "class": "left-align" },
+
+                { "data": "id", "class": "center-align", "width": "100px" },
+            ]
+        });
+
+        $("#NamSinhAdd").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+
+            autoclose: true
+        });
+        $("#NamBatDauHocAdd").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+
+            autoclose: true
+        });
+        $("#NamSinhEdit").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+
+            autoclose: true
+        });
+        $("#NamBatDauHocEdit").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+
+            autoclose: true
+        });
+
+
+
+
+        $('#mutiDelete').on('click', function (e) {
+            var form = this;
+
+            var rows_selected = dtb.api().column(0).checkboxes.selected();
+
+            // Iterate over all selected checkboxes
+            $.each(rows_selected, function (index, rowId) {
+                // Create a hidden element
+                $(form).append(
+                    $('<input>')
+                        .attr('type', 'hidden')
+                        .attr('name', 'id[]')
+                        .val(rowId)
+                );
+            });
+
+            // alert(rows_selected.join(","));
+            //alert($(form).serialize());
+
+            $('input[name="id\[\]"]', form).remove();
+
+            $('#mutiDeleteSubmit').click(function (e) {
+                e.preventDefault();
+
+
+
+                a = rows_selected.join(",").split(",");
+                // id -> sp get nghe nhan -> co maanh -> sp get anh -> xoa anhfoder -> xoa anh db -> xoa nnhan
+                for (i = 0; i < a.length; i++) {
+
+                    $.ajax({
+                        url: window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Get?ID=' + a[i],
+                        method: "GET",
+                        success: function (data) {
+
+                            if (data.MaAnh == 0) {
+                                aa = rows_selected.join(",").split(",");
+                                for (i = 0; i < aa.length; i++) {
+                                    $.ajax({
+                                        url: window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Delete?ID=' + aa[i],
+                                        method: "DELETE",
+                                        success: function () {
+                                            location.reload();
+                                        }
+
+                                    })
+                                }
+                            } else {
+                                var b = [data.MaAnh];
+                                for (i = 0; i < b.length; i++) {
+                                    $.ajax({
+                                        url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/Gets?MaAnh=' + b[i],
+                                        method: "GET",
+                                        success: function (AnhGet) {
+
+                                            var c = [AnhGet.Path];
+                                            for (i = 0; i < c.length; i++) {
+                                                $.ajax({
+                                                    url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/DeleteImage?Path=' + c[i],
+                                                    method: "DELETE",
+                                                    success: function () {
+                                                        bb = [AnhGet.FileID]
+                                                        for (i = 0; i < bb.length; i++) {
+
+                                                            $.ajax({
+                                                                url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/Delete?ID=' + bb[i],
+                                                                method: "DELETE",
+                                                                success: function () {
+                                                                    var d = [data.MaNgheNhan]
+
+                                                                    for (i = 0; i < d.length; i++) {
+                                                                        $.ajax({
+                                                                            url: window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Delete?ID=' + d[i],
+
+                                                                            method: "DELETE",
+                                                                            success: function () {
+                                                                                location.reload();
+
+                                                                            }
+
+                                                                        })
+                                                                    }
+                                                                }
+
+                                                            })
+                                                        }
+                                                    }
+
+                                                })
+                                            }
+                                        }
+                                    })
+                                }
+                            }
+
+
+                        }
+
+                    })
+
+
+                }
+
+            })
+
+            e.preventDefault();
+        });
+
+        $('#dataGrid tbody').on('click', '.delete-NgheNhan', function () {
+            var id = $(this).attr("id").match(/\d+/)[0];
+
+            var data = $('#dataGrid').DataTable().row(id).data();
+
+            //$('#IdUserDelete').val(data.id);
+            $('#modal-btn-delete').click();
+
+            $('#delete').click(function (e) {
+                e.preventDefault();
+
+                // xoa file trong fd , trong db -> xoa tac gia
+                $.ajax({
+                    url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/Gets?MaAnh=' + data.MaAnh,
+                    method: "GET",
+                    success: function (AnhGet) {
+
+                        if (AnhGet == null) {
+                            var url = window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Delete?ID=' + data.MaNgheNhan;
+                            $.ajax({
+                                url: url,
+
+                                method: "DELETE",
+                                success: function () {
+                                    location.reload();
+
+                                }
+
+                            })
+                        } else {
+                            $.ajax({
+                                url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/DeleteImage?Path=' + AnhGet.Path,
+                                method: "DELETE",
+                                success: function () {
+                                    $.ajax({
+                                        url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/Delete?ID=' + data.MaAnh,
+                                        method: "DELETE",
+                                        success: function () {
+                                            var url = window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Delete?ID=' + data.MaNgheNhan;
+                                            $.ajax({
+                                                url: url,
+
+                                                method: "DELETE",
+                                                success: function () {
+                                                    location.reload();
+
+                                                }
+
+                                            })
+
+                                        }
+
+                                    })
+
+                                }
+
+                            })
+                        }
+
+                    }
+
+                })
+
+
+            });
+        });
+        $('#dataGrid tbody').on('click', '.edit-NgheNhan', function () {
+            var id = $(this).attr("id").match(/\d+/)[0];
+            var data = $('#dataGrid').DataTable().row(id).data();
+         
+            $('#modal-btn-edit').click();
+            $('#TenEdit').val(data.Ten)
+            $('select').val(data.MaNghe);
+         
+            $('#HoatDongNgheThuatEdit').val(data.HoatDongNgheThuat);
+            $('#NgheDanhEdit').val(data.NgheDanh);
+            $('#DanhHieuEdit').val(0);
+            $('#NamSinhEdit').val(data.NamSinh );
+            $('#QueQuanEdit').val(data.QueQuan);
+            $('#DiaChiEdit').val(data.DiaChi );
+            $('#TheHeNgheNhanEdit').val(data.TheHeNgheNhan );
+            $('#NhungNoiLuuDienEdit').val(data.NhungNoiLuuDien );
+            $('#HocLoaiHinhNgheThuatEdit').val(data.HocLoaiHinhNgheThuat );
+            $('#SuDungNhacCuEdit').val(data.SuDungNhacCu );
+            $('#NamBatDauHocEdit').val(data.NamBatDauHoc );
+            $('#NguoiDayEdit').val(data.NguoiDay );
+            $('#NoiHocEdit').val(data.NoiHoc );
+            $('#BanCungHocEdit').val(data.BanCungHoc );
+            $('#BanCungDienEdit').val(data.BanCungDien );
+            $('#BiQuyetNgheNghiepEdit').val(data.BiQuyetNgheNghiep );
+            $('#TheHienBaiBanEdit').val(data.TheHienBaiBan );
+            $('#GiaiThoaiKyNiemEdit').val(data.GiaiThoaiKyNiem );
+            $('#TruyenThongGiaDinhEdit').val(data.TruyenThongGiaDinh );
+            $('#TheHeKeTucEdit').val(data.TheHeKeTuc );
+            $('#DongGopTruyenDayEdit').val(data.DongGopTruyenDay );
+            $('#DanhHieuGiaiThuongEdit').val(data.DanhHieuGiaiThuong );
+            
+            $('#btnEdit').click(function (e) {
+                e.preventDefault();
+
+
+                if ($('#TenEdit').val() == '' && $('#NgheNghiepEdit').val() == 0) {
+
+                    alertify.error('Nhập tên nghệ nhân');
+                    alertify.error('nhập nghề nghiệp');
+                    return;
+                } else {
+                    if ($('#TenEdit').val() == '') {
+                        alertify.error('Nhập tên nghệ nhân');
+                        return;
+                    } else {
+                        if ($('#NgheNghiepEdit').val() == 0) {
+                            alertify.error('Nhập nghề nghiệp');
+                            return;
+                        }
+                    }
+                }
+
+                if ($('#formFile1').val() == '') {
+
+                    $.ajax({
+                        url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/Gets?MaAnh=' + data.MaAnh,
+
+                        method: "get",
+                        success: function (getImage) {
+
+                            if (getImage == null) {
+                                ngheNhan = {
+                                    "Ten": $('#TenEdit').val(),                                  
+                                    "MaAnh": 0,
+                                    "MaNghe": $('#NgheNghiepEdit').val(),
+                                    "MaNgheNhan": data.MaNgheNhan,
+                                    "HoatDongNgheThuat": $('#HoatDongNgheThuatEdit').val(),
+                                    "DanhHieu": 0,
+                                    "NgheDanh": $('#NgheDanhEdit').val(),
+                                    "NamSinh": $('#NamSinhEdit').val(),
+                                    "QueQuan": $('#QueQuanEdit').val(),
+                                    "DiaChi": $('#DiaChiEdit').val(),
+                                    "TheHeNgheNhan": $('#TheHeNgheNhanEdit').val(),
+                                    "NhungNoiLuuDien": $('#NhungNoiLuuDienEdit').val(),
+                                    "HocLoaiHinhNgheThuat": $('#HocLoaiHinhNgheThuatEdit').val(),                                    
+                                    "SuDungNhacCu": $('#SuDungNhacCuEdit').val(),
+                                    "NamBatDauHoc": $('#NamBatDauHocEdit').val(),
+                                    "NguoiDay": $('#NguoiDayEdit').val(),
+                                    "NoiHoc": $('#NoiHocEdit').val(),
+                                    "BanCungHoc": $('#BanCungHocEdit').val(),
+                                    "BanCungDien": $('#BanCungDienEdit').val(),
+                                    "BiQuyetNgheNghiep": $('#BiQuyetNgheNghiepEdit').val(),
+                                    "TheHienBaiBan": $('#TheHienBaiBanEdit').val(),
+                                    "GiaiThoaiKyNiem": $('#GiaiThoaiKyNiemEdit').val(),
+                                    "TruyenThongGiaDinh": $('#TruyenThongGiaDinhEdit').val(),
+                                    "TheHeKeTuc": $('#TheHeKeTucEdit').val(),
+                                    "DongGopTruyenDay": $('#DongGopTruyenDayEdit').val(),
+                                    "DanhHieuGiaiThuong": $('#DanhHieuGiaiThuongEdit').val(),
+                                   
+
+                                }
+
+                                $.ajax({
+                                    url: window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Puts',
+                                    data: ngheNhan,
+                                    method: "PUT",
+                                    success: function () {
+                                        location.reload();
+
+                                    }
+                                })
+                            } else {
+
+                                ngheNhan = {
+                                    "Ten": $('#TenEdit').val(),                                   
+                                    "MaAnh": getImage.FileID,
+                                    "MaNghe": $('#NgheNghiepEdit').val(),
+                                    "MaNgheNhan": data.MaNgheNhan,
+                                    "HoatDongNgheThuat": $('#HoatDongNgheThuatEdit').val(),
+                                    "DanhHieu": 0,
+                                    "NgheDanh": $('#NgheDanhEdit').val(),
+                                    "NamSinh": $('#NamSinhEdit').val(),
+                                    "QueQuan": $('#QueQuanEdit').val(),
+                                    "DiaChi": $('#DiaChiEdit').val(),
+                                    "TheHeNgheNhan": $('#TheHeNgheNhanEdit').val(),
+                                    "NhungNoiLuuDien": $('#NhungNoiLuuDienEdit').val(),
+                                    "HocLoaiHinhNgheThuat": $('#HocLoaiHinhNgheThuatEdit').val(),
+                                    "SuDungNhacCu": $('#SuDungNhacCuEdit').val(),
+                                    "NamBatDauHoc": $('#NamBatDauHocEdit').val(),
+                                    "NguoiDay": $('#NguoiDayEdit').val(),
+                                    "NoiHoc": $('#NoiHocEdit').val(),
+                                    "BanCungHoc": $('#BanCungHocEdit').val(),
+                                    "BanCungDien": $('#BanCungDienEdit').val(),
+                                    "BiQuyetNgheNghiep": $('#BiQuyetNgheNghiepEdit').val(),
+                                    "TheHienBaiBan": $('#TheHienBaiBanEdit').val(),
+                                    "GiaiThoaiKyNiem": $('#GiaiThoaiKyNiemEdit').val(),
+                                    "TruyenThongGiaDinh": $('#TruyenThongGiaDinhEdit').val(),
+                                    "TheHeKeTuc": $('#TheHeKeTucEdit').val(),
+                                    "DongGopTruyenDay": $('#DongGopTruyenDayEdit').val(),
+                                    "DanhHieuGiaiThuong": $('#DanhHieuGiaiThuongEdit').val(),
+                                }
+
+                                $.ajax({
+                                    url: window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Puts',
+                                    data: ngheNhan,
+                                    method: "PUT",
+                                    success: function () {
+                                        location.reload();
+
+                                    }
+                                })
+                            }
+
+                        }
+                    })
+
+
+                } else {
+
+                    var files = $('#formFile1').get(0).files;
+
+                    var formData1 = new FormData();
+                    for (var i = 0; i < files.length; i++) {
+                        formData1.append(files[i].name, files[i]);
+                    }
+                    var path = "~/DesktopModules/MVC/NhaNhac_CMS/UploadFiles";
+                    var paththumuc = "~/DesktopModules/MVC/NhaNhac_CMS/UploadFiles";
+
+                    $.ajax({
+                        url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/Gets?MaAnh=' + data.MaAnh,
+                        method: "GET",
+                        success: function (getImage) {
+
+                            if (getImage == null) {
+                                $.ajax({
+                                    url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/Posts?pathFolder=' + path + '&pathThuMuc=' + paththumuc,
+                                    data: formData1,
+                                    method: "POST",
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (dataImageEdit) {
+
+                                        $.ajax({
+                                            url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/anhPosts?url=' + dataImageEdit[0].url + '&filename=' + dataImageEdit[0].filename,
+                                            method: "POST",
+                                            success: function (res) {
+
+                                                ngheNhan = {
+                                                    "Ten": $('#TenEdit').val(),
+                                                 
+                                                    "MaAnh": res.FileID,
+                                                    "MaNghe": $('#NgheNghiepEdit').val(),
+                                                    "MaNgheNhan": data.MaNgheNhan,
+                                                    "HoatDongNgheThuat": $('#HoatDongNgheThuatEdit').val(),
+                                                    "DanhHieu": 0,
+                                                    "NgheDanh": $('#NgheDanhEdit').val(),
+                                                    "NamSinh": $('#NamSinhEdit').val(),
+                                                    "QueQuan": $('#QueQuanEdit').val(),
+                                                    "DiaChi": $('#DiaChiEdit').val(),
+                                                    "TheHeNgheNhan": $('#TheHeNgheNhanEdit').val(),
+                                                    "NhungNoiLuuDien": $('#NhungNoiLuuDienEdit').val(),
+                                                    "HocLoaiHinhNgheThuat": $('#HocLoaiHinhNgheThuatEdit').val(),
+                                                    "SuDungNhacCu": $('#SuDungNhacCuEdit').val(),
+                                                    "NamBatDauHoc": $('#NamBatDauHocEdit').val(),
+                                                    "NguoiDay": $('#NguoiDayEdit').val(),
+                                                    "NoiHoc": $('#NoiHocEdit').val(),
+                                                    "BanCungHoc": $('#BanCungHocEdit').val(),
+                                                    "BanCungDien": $('#BanCungDienEdit').val(),
+                                                    "BiQuyetNgheNghiep": $('#BiQuyetNgheNghiepEdit').val(),
+                                                    "TheHienBaiBan": $('#TheHienBaiBanEdit').val(),
+                                                    "GiaiThoaiKyNiem": $('#GiaiThoaiKyNiemEdit').val(),
+                                                    "TruyenThongGiaDinh": $('#TruyenThongGiaDinhEdit').val(),
+                                                    "TheHeKeTuc": $('#TheHeKeTucEdit').val(),
+                                                    "DongGopTruyenDay": $('#DongGopTruyenDayEdit').val(),
+                                                    "DanhHieuGiaiThuong": $('#DanhHieuGiaiThuongEdit').val(),
+                                                }
+
+                                                $.ajax({
+                                                    url: window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Puts',
+                                                    data: ngheNhan,
+                                                    method: "PUT",
+                                                    success: function () {
+                                                        location.reload();
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                            } else {
+
+
+                                $.ajax({
+                                    url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/Puts?pathFolder=' + path + '&pathThuMuc=' + paththumuc + '&nameImage=' + getImage.Title,
+                                    data: formData1,
+                                    method: "PUT",
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (dataImage) {
+
+                                        Anh = {
+                                            "Title": dataImage[0].filename,
+                                            "Path": dataImage[0].url,
+                                            "FileID": getImage.FileID
+                                        }
+
+                                        $.ajax({
+                                            url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/Puts',
+                                            data: Anh,
+                                            method: "PUT",
+                                            success: function (dataPuts) {
+
+
+
+                                                ngheNhan = {
+                                                    "Ten": $('#TenEdit').val(),
+                                                
+                                                    "MaAnh": dataPuts.FileID,
+                                                    "MaNghe": $('#NgheNghiepEdit').val(),
+                                                    "MaNgheNhan": data.MaNgheNhan,
+                                                    "HoatDongNgheThuat": $('#HoatDongNgheThuatEdit').val(),
+                                                    "DanhHieu": 0,
+                                                    "NgheDanh": $('#NgheDanhEdit').val(),
+                                                    "NamSinh": $('#NamSinhEdit').val(),
+                                                    "QueQuan": $('#QueQuanEdit').val(),
+                                                    "DiaChi": $('#DiaChiEdit').val(),
+                                                    "TheHeNgheNhan": $('#TheHeNgheNhanEdit').val(),
+                                                    "NhungNoiLuuDien": $('#NhungNoiLuuDienEdit').val(),
+                                                    "HocLoaiHinhNgheThuat": $('#HocLoaiHinhNgheThuatEdit').val(),
+                                                    "SuDungNhacCu": $('#SuDungNhacCuEdit').val(),
+                                                    "NamBatDauHoc": $('#NamBatDauHocEdit').val(),
+                                                    "NguoiDay": $('#NguoiDayEdit').val(),
+                                                    "NoiHoc": $('#NoiHocEdit').val(),
+                                                    "BanCungHoc": $('#BanCungHocEdit').val(),
+                                                    "BanCungDien": $('#BanCungDienEdit').val(),
+                                                    "BiQuyetNgheNghiep": $('#BiQuyetNgheNghiepEdit').val(),
+                                                    "TheHienBaiBan": $('#TheHienBaiBanEdit').val(),
+                                                    "GiaiThoaiKyNiem": $('#GiaiThoaiKyNiemEdit').val(),
+                                                    "TruyenThongGiaDinh": $('#TruyenThongGiaDinhEdit').val(),
+                                                    "TheHeKeTuc": $('#TheHeKeTucEdit').val(),
+                                                    "DongGopTruyenDay": $('#DongGopTruyenDayEdit').val(),
+                                                    "DanhHieuGiaiThuong": $('#DanhHieuGiaiThuongEdit').val(),
+                                                }
+
+                                                $.ajax({
+                                                    url: window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Puts',
+                                                    data: ngheNhan,
+                                                    method: "PUT",
+                                                    success: function () {
+                                                        location.reload();
+                                                    }
+                                                })
+
+
+                                            }
+                                        })
+
+                                    }
+                                })
+
+
+                            }
+
+
+                        }
+                    })
+
+
+                }
+
+            });
+
+
+        });
+        $('#dataGrid tbody').on('click', '.detail-NgheNhan', function () {
+            var id = $(this).attr("id").match(/\d+/)[0];
+            var data = $('#dataGrid').DataTable().row(id).data();
+       
+            $('#modal-btn-detail').click();
+            $('#TenDetail').val(data.Ten)
+            $('select').val(data.MaNghe);
+           
+            $('#img').attr("src", data.Path.replace('~', ''));
+
+
+            $('#HoatDongNgheThuatDetail').val(data.HoatDongNgheThuat);
+            $('#NgheDanhDetail').val(data.NgheDanh);
+            $('#DanhHieuDetail').val(0);
+            $('#NamSinhDetail').val(data.NamSinh);
+            $('#QueQuanDetail').val(data.QueQuan);
+            $('#DiaChiDetail').val(data.DiaChi);
+            $('#TheHeNgheNhanDetail').val(data.TheHeNgheNhan);
+            $('#NhungNoiLuuDienDetail').val(data.NhungNoiLuuDien);
+            $('#HocLoaiHinhNgheThuatDetail').val(data.HocLoaiHinhNgheThuat);
+            $('#SuDungNhacCuDetail').val(data.SuDungNhacCu);
+            $('#NamBatDauHocDetail').val(data.NamBatDauHoc);
+            $('#NguoiDayDetail').val(data.NguoiDay);
+            $('#NoiHocDetail').val(data.NoiHoc);
+            $('#BanCungHocDetail').val(data.BanCungHoc);
+            $('#BanCungDienDetail').val(data.BanCungDien);
+            $('#BiQuyetNgheNghiepDetail').val(data.BiQuyetNgheNghiep);
+            $('#TheHienBaiBanDetail').val(data.TheHienBaiBan);
+            $('#GiaiThoaiKyNiemDetail').val(data.GiaiThoaiKyNiem);
+            $('#TruyenThongGiaDinhDetail').val(data.TruyenThongGiaDinh);
+            $('#TheHeKeTucDetail').val(data.TheHeKeTuc);
+            $('#DongGopTruyenDayDetail').val(data.DongGopTruyenDay);
+            $('#DanhHieuGiaiThuongDetail').val(data.DanhHieuGiaiThuong);
+
+
+
+
+
+        });
+    });
+    function KiemTra() {
+        if (TenAdd.value.length > 200) alert("Bạn đã gõ trường 'Tên nghệ nhân' quá 200 ký tự cho phép!");
+        if (TenEdit.value.length > 200) alert("Bạn đã gõ trường 'Tên nghệ nhân' quá 200 ký tự cho phép!");
+    }
+
+    $.ajax({
+        type: 'get',
+        url: 'http://localhost:200/api/NhaNhac_CMS/NgheNghiepApi/Gets',
+        success: function (data) {
+            $(`#NgheNghiepAdd`).empty();
+            $(`#NgheNghiepEdit`).empty();
+            $(`#NgheNghiepSearch`).empty();
+            $(`#NgheNghiepDetail`).empty();
+
+
+
+            $('#NgheNghiepAdd').append(`<option value=${0}>${"--Chọn--"}</option>`)
+            $('#NgheNghiepEdit').append(`<option value=${0}>${"--Chọn--"}</option>`)
+            $('#NgheNghiepSearch').append(`<option value=${0}>${"--Chọn--"}</option>`)
+            $('#NgheNghiepDetail').append(`<option value=${0}>${"--Chọn--"}</option>`)
+            data.forEach(element => {
+                $('#NgheNghiepAdd').append(`<option value=${element.MaNghe}>${element.TenNghe}</option>`)
+                $('#NgheNghiepEdit').append(`<option value=${element.MaNghe}>${element.TenNghe}</option>`)
+                $('#NgheNghiepSearch').append(`<option value=${element.MaNghe}>${element.TenNghe}</option>`)
+                $('#NgheNghiepDetail').append(`<option value=${element.MaNghe}>${element.TenNghe}</option>`)
+            });
+        },
+        error: function (err) {
+            alert('Lỗi load dữ liệu, vui lòng thử lại sau!');
+        }
+    });
+
+
+
+    $('#btnAdd').click(function (e) {
+        e.preventDefault();
+
+
+        if ($('#TenAdd').val() == '' && $('#NgheNghiepAdd').val() == 0) {
+
+            alertify.error('Nhập tên nghệ nhân');
+            alertify.error('Nhập nghề nghiệp');
+            return;
+        } else {
+            if ($('#TenAdd').val() == '') {
+                alertify.error('Nhập tên nghệ nhân');
+                return;
+            } else {
+                if ($('#NgheNghiepAdd').val() == 0) {
+                    alertify.error('Nhập nghề nghiệp');
+                    return;
+                }
+            }
+        }
+
+        //for (const pair of formdata.entries()) {
+        //    console.log(`${pair[0]}, ${pair[1]},`);
+        //}
+
+        if ($('#formFile').val() == '') {
+            ngheNhan = {
+                "Ten": $('#TenAdd').val(),
+                "MaAnh": 0,
+                "MaNghe": $('#NgheNghiepAdd').val(),
+                "HoatDongNgheThuat": $('#HoatDongNgheThuatAdd').val(),
+                "NgheDanh": $('#NgheDanhAdd').val(),
+                "DanhHieu": 0,
+                "NamSinh": $('#NamSinhAdd').val(),
+                "QueQuan": $('#QueQuanAdd').val(),
+                "DiaChi": $('#DiaChiAdd').val(),
+                "NhungNoiLuuDien": $('#NhungNoiLuuDienAdd').val(),
+                "TheHeNgheNhan": $('#TheHeNgheNhanAdd').val(),
+                "HocLoaiHinhNgheThuat": $('#HocLoaiHinhNgheThuatAdd').val(),
+                "SuDungNhacCu": $('#SuDungNhacCuAdd').val(),
+                "NamBatDauHoc": $('#NamBatDauHocAdd').val(),
+                "NguoiDay": $('#NguoiDayAdd').val(),
+                "NoiHoc": $('#NoiHocAdd').val(),
+                "BanCungHoc": $('#BanCungHocAdd').val(),
+                "BanCungDien": $('#BanCungDienAdd').val(),
+                "BiQuyetNgheNghiep": $('#BiQuyetNgheNghiepAdd').val(),
+                "TheHienBaiBan": $('#TheHienBaiBanAdd').val(),
+                "GiaiThoaiKyNiem": $('#GiaiThoaiKyNiemAdd').val(),
+                "TruyenThongGiaDinh": $('#TruyenThongGiaDinhAdd').val(),
+                "TheHeKeTuc": $('#TheHeKeTucAdd').val(),
+                "DongGopTruyenDay": $('#DongGopTruyenDayAdd').val(),
+                "DanhHieuGiaiThuong": $('#DanhHieuGiaiThuongAdd').val(),
+
+
+            }
+
+
+            $.ajax({
+                url: window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Posts',
+                data: ngheNhan,
+                method: "POST",
+                success: function () {
+                    location.reload();
+
+                }
+
+            })
+        } else {
+            var files = $('#formFile').get(0).files;
+
+            var formData1 = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                formData1.append(files[i].name, files[i]);
+            }
+            var path = "~/DesktopModules/MVC/NhaNhac_CMS/UploadFiles";
+            var paththumuc = "~/DesktopModules/MVC/NhaNhac_CMS/UploadFiles";
+
+            $.ajax({
+                url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/Posts?pathFolder=' + path + '&pathThuMuc=' + paththumuc,
+                data: formData1,
+                method: "POST",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+
+                    $.ajax({
+                        url: window.location.origin + '/api/NhaNhac_CMS/AnhApi/anhPosts?url=' + data[0].url + '&filename=' + data[0].filename,
+                        method: "POST",
+                        success: function (res) {
+                            ngheNhan = {
+                                "Ten": $('#TenAdd').val(),
+                                "MaNghe": $('#NgheNghiepAdd').val(),
+                                "MaAnh": res.FileID,
+                                "HoatDongNgheThuat": $('#HoatDongNgheThuatAdd').val(),
+                                "NgheDanh": $('#NgheDanhAdd').val(),
+                                "DanhHieu": 0,
+                                "NamSinh": $('#NamSinhAdd').val(),
+                                "QueQuan": $('#QueQuanAdd').val(),
+                                "DiaChi": $('#DiaChiAdd').val(),
+                                "TheHeNgheNhan": $('#TheHeNgheNhanAdd').val(),
+                                "NhungNoiLuuDien": $('#NhungNoiLuuDienAdd').val(),
+                                "HocLoaiHinhNgheThuat": $('#HocLoaiHinhNgheThuatAdd').val(),
+                                "SuDungNhacCu": $('#SuDungNhacCuAdd').val(),
+                                "NamBatDauHoc": $('#NamBatDauHocAdd').val(),
+                                "NguoiDay": $('#NguoiDayAdd').val(),
+                                "NoiHoc": $('#NoiHocAdd').val(),
+                                "BanCungHoc": $('#BanCungHocAdd').val(),
+                                "BanCungDien": $('#BanCungDienAdd').val(),
+                                "BiQuyetNgheNghiep": $('#BiQuyetNgheNghiepAdd').val(),
+                                "TheHienBaiBan": $('#TheHienBaiBanAdd').val(),
+                                "GiaiThoaiKyNiem": $('#GiaiThoaiKyNiemAdd').val(), "TruyenThongGiaDinh": $('#TruyenThongGiaDinhAdd').val(),
+                                "TheHeKeTuc": $('#TheHeKeTucAdd').val(),
+                                "DongGopTruyenDay": $('#DongGopTruyenDayAdd').val(),
+                                "DanhHieuGiaiThuong": $('#DanhHieuGiaiThuongAdd').val(),
+
+
+                            }
+
+                            $.ajax({
+                                url: window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/Posts',
+                                data: ngheNhan,
+                                method: "POST",
+                                success: function () {
+                                    location.reload();
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+
+    });
+    $('#timkiem').click(function (e) {
+        e.preventDefault();
+
+        let tukhoa = $('#nghenhan').val();
+
+
+        var url = window.location.origin + '/api/NhaNhac_CMS/NgheNhanApi/search?tukhoa=' + tukhoa;
+        $.ajax({
+            url: url,
+
+            method: "GET",
+            success: function (data) {
+
+
+                for (let i = 0; i < data.length; i++) {
+                    data[i].stt = i + 1;
+                }
+                $('#dataGrid').DataTable().clear();
+                $('#dataGrid').DataTable().rows.add(data);
+                $('#dataGrid').DataTable().draw();
+
+
+
+            }
+
+        })
+    });
+</script>
+

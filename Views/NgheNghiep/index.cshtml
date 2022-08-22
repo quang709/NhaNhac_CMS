@@ -1,0 +1,437 @@
+﻿
+@{
+
+    ViewBag.Title = "Quản lý Nghệ Nhân";
+    //Layout = "~/DesktopModules/MVC/CSDLTuongCMS/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <h3 class="admin-page-content-title">Nghệ Nhân</h3>
+    <div class="tab-content admin-content-wrapper">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="row">
+
+
+
+
+                    </div>
+                </div>
+                <div class="col-12">
+
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAdd">
+                        <span>Thêm mới</span>
+                    </button>
+                    <button type="button" class="btn btn-danger" id="mutiDelete" data-toggle="modal" data-target="#modalMutiDelete">
+                        <span>Xóa</span>
+                    </button>
+                    <!-- Button trigger modal -->
+
+                    <button id="modal-btn-edit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEdit" style="display: none">
+                        Cập nhật
+                    </button>
+                    <button id="modal-btn-delete" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDelete" style="display: none">
+                        Xóa
+                    </button>
+
+                </div>
+            </div>
+            <div class="table-tree-wrapper">
+                <div style="width:100%; margin:0 auto;">
+                    <table id="dataGrid" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="align-self-md-center" id="flexCheckDefault"></th>
+                                <th>Stt</th>
+                                <th>Nghề Nghiệp</th>
+                                <th>Mô tả</th>
+
+
+
+                                <th>Thao tác</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <!-- Modal add-->
+            <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="loai-hinh-title" id="modalLabelAdd">Thêm mới </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" id="formAdd" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Tên nghề<span class="red-text"> *</span></label>
+                                    <input class="form-control" id="TenAdd" required onKeyUp="KiemTra();" />
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Mô tả</label>
+                                    <textarea id="MoTaAdd" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button type="submit" id="btnAdd" class="btn btn-submit-form btn-success">Lưu</button>
+
+                                    <button type="button" class="btn btn-close-form btn-outline-danger" data-dismiss="modal">Hủy bỏ</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Modal edit-->
+            <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="loai-hinh-title" id="modalLabelEdit">Chỉnh sửa </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" id="formEdit">
+                                <input type="hidden" class="form-control" id="Id">
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Tên<span class="red-text"> *</span></label>
+                                    <input class="form-control" id="TenEdit" required onKeyUp="KiemTra();" />
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Input" class="editor-label">Mô tả</label>
+                                    <textarea id="MoTaEdit" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="btnEdit" class="btn btn-submit-form btn-success">Lưu</button>
+                                    <button type="button" class="btn btn-close-form btn-outline-danger" data-dismiss="modal">Hủy bỏ</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!--modal Muti delete-->
+            <div class="modal fade" id="modalMutiDelete" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="loai-hinh-title" id="modalLabelDelete">Xóa các nghệ nhân</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" id="formDelete">
+                                <input type="hidden" class="form-control" id="IdDelete">
+                                <div class="form-group">
+                                    Bạn có chắc chắn muốn xóa các nghệ nhân?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="mutiDeleteSubmit" class="btn btn-primary text-white">Đồng ý</button>
+                                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--modal delete-->
+            <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="loai-hinh-title" id="modalLabelDelete">Xóa</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" id="formDelete">
+                                <input type="hidden" class="form-control" id="IdDelete">
+                                <div class="form-group">
+                                    Bạn có chắc chắn muốn xóa ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="delete" class="btn btn-primary text-white">Đồng ý</button>
+                                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        let dtb = $('#dataGrid').dataTable({
+            "order": [],
+            "autoWidth": false,
+            "ordering": true,
+            "bInfo": false,
+            "bLengthChange": false,
+            "filter": true,
+            "language": {
+                "sProcessing": "Đang xử lý...",
+                "sLengthMenu": "Hiện: _MENU_",
+                "sZeroRecords": "Không có dữ liệu",
+                "sEmptyTable": "Bảng trống",
+                "sInfo": "Hiện dòng _START_ đến _END_ trong tổng _TOTAL_ dòng",
+                "sInfoEmpty": "Hiện dòng 0 đến 0 trong tổng 0 dòng",
+                //"sInfoPostFix": "Tìm kiếm...",
+                "sSearch": "Tìm kiếm",
+                "sLoadingRecords": "Đang tải...",
+                paginate: {
+                    next: '<i class="fas fa-chevron-right paging-chevron">',
+                    previous: '<i class="fas fa-chevron-left paging-chevron">'
+                }
+            },
+
+
+            columnDefs: [
+                {
+                    'targets': [0],
+                    'checkboxes': {
+                        'selectrow': true
+                    },
+                },
+                {
+                    'targets': [0, 1, 3, 4,],
+                    orderable: false,
+                },
+
+                {
+
+                    targets: 4,
+                    render: function (data, type, row, meta) {
+                        return '<i class="fas fa-edit edit-NgheNghiep blue-text command-icon" id=n-"' + meta.row + '"></i><i class="far fa-trash-alt delete-NgheNghiep red-text command-icon" id=n-"' + meta.row + '"></i>';
+                    },
+
+
+                },
+
+
+            ],
+            "select": {
+                'style': 'multi'
+            },
+            "ajax": {
+                url: window.location.origin + '/api/NhaNhac_CMS/NgheNghiepApi/Gets',
+                type: "GET",
+
+                dataSrc: function (data) {
+
+                    for (let i = 0; i < data.length; i++) {
+                        data[i].stt = i + 1;
+                    }
+                    return data;
+                },
+            },
+
+            "columns": [
+                { data: "MaNghe", "class": "center-align", "width": "100px" },
+                { data: "stt", "width": "50px", "class": "stt-text center-align" },
+                { data: "TenNghe", "class": "left-align" },
+
+                { data: "MoTa", "class": "left-align" },
+
+
+                { "data": "id", "class": "center-align", "width": "100px" },
+            ]
+        });
+
+
+
+
+        $('#mutiDelete').on('click', function (e) {
+            var form = this;
+
+            var rows_selected = dtb.api().column(0).checkboxes.selected();
+
+            // Iterate over all selected checkboxes
+            $.each(rows_selected, function (index, rowId) {
+                // Create a hidden element
+                $(form).append(
+                    $('<input>')
+                        .attr('type', 'hidden')
+                        .attr('name', 'id[]')
+                        .val(rowId)
+                );
+            });
+
+            // alert(rows_selected.join(","));
+            //alert($(form).serialize());
+
+            $('input[name="id\[\]"]', form).remove();
+
+            $('#mutiDeleteSubmit').click(function (e) {
+                e.preventDefault();
+                a = rows_selected.join(",").split(",");
+                for (i = 0; i < a.length; i++) {
+
+                    $.ajax({
+                        url: window.location.origin + '/api/NhaNhac_CMS/NgheNghiepApi/Delete?ID=' + a[i],
+                        method: "DELETE",
+                        success: function () {
+                            location.reload();
+                        }
+
+                    })
+                }
+            })
+
+            e.preventDefault();
+        });
+
+
+        $('#dataGrid tbody').on('click', '.delete-NgheNghiep', function () {
+            var id = $(this).attr("id").match(/\d+/)[0];
+
+            var data = $('#dataGrid').DataTable().row(id).data();
+
+            //$('#IdUserDelete').val(data.id);
+            $('#modal-btn-delete').click();
+
+            $('#delete').click(function (e) {
+                e.preventDefault();
+                var url = window.location.origin + '/api/NhaNhac_CMS/NgheNghiepApi/Delete?ID=' + data.MaNghe;
+                $.ajax({
+                    url: url,
+                    method: "DELETE",
+                    success: function () {
+                        location.reload();
+
+                    }
+                })
+            })
+
+
+        });
+  
+
+        $('#dataGrid tbody').on('click', '.edit-NgheNghiep', function () {
+            var id = $(this).attr("id").match(/\d+/)[0];
+            var data = $('#dataGrid').DataTable().row(id).data();
+
+            $('#modal-btn-edit').click();
+
+            $('#TenEdit').val(data.TenNghe);
+            $('#MoTaEdit').val(data.MoTa);
+
+            $('#btnEdit').click(function (e) {
+                e.preventDefault();
+
+                if ($('#TenEdit').val() == '') {
+                    alertify.error('Nhập nghề nghiệp');
+
+                    return;
+                }
+
+                ngheNghiep = {
+                    "TenNghe": $('#TenEdit').val(),
+                    "MoTa": $('#MoTaEdit').val(),
+                    "MaNghe": data.MaNghe
+
+                }
+
+                $.ajax({
+                    url: window.location.origin + '/api/NhaNhac_CMS/NgheNghiepApi/Puts',
+                    data: ngheNghiep,
+                    method: "PUT",
+                    success: function (data) {
+                    
+                        if (data == null) {
+                            location.reload();
+                        }
+                        else {
+                            if (data.MaNghe == 0) {
+                                alertify.error('Nghề nghiệp đã tồn tại');
+                                return;
+                            }
+                        }
+
+                    }
+                })
+            });
+
+
+        });
+
+    });
+    function KiemTra() {
+        if (TenAdd.value.length > 200) alert("Bạn đã gõ trường 'Nghề nghiệp' quá 200 ký tự cho phép!");
+        if (TenEdit.value.length > 200) alert("Bạn đã gõ trường 'Nghề nghiệp' quá 200 ký tự cho phép!");
+    }
+
+
+
+
+
+
+    $('#btnAdd').click(function (e) {
+        e.preventDefault();
+
+        if ($('#TenAdd').val() == '') {
+            alertify.error('Nhập nghề nghiệp');
+
+            return;
+        }
+
+        //for (const pair of formdata.entries()) {
+        //    console.log(`${pair[0]}, ${pair[1]},`);
+        //}
+
+
+        ngheNghiep = {
+            "TenNghe": $('#TenAdd').val(),
+            "MoTa": $('#MoTaAdd').val(),
+
+        }
+
+        $.ajax({
+            url: window.location.origin + '/api/NhaNhac_CMS/NgheNghiepApi/Posts',
+            data: ngheNghiep,
+            method: "POST",
+            success: function (data) {
+
+                if (data == null) {
+                    location.reload();
+                }
+                else {
+                    if (data.MaNghe == 0) {
+                        alertify.error('Nghề nghiệp đã tồn tại');
+                        return;
+                    }
+                }
+
+            }
+
+        })
+
+
+
+    });
+
+
+</script>
+
